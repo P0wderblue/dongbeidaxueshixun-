@@ -1,0 +1,22 @@
+server:
+  port: 10000
+spring:
+  application:
+    name: user-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        cluster-name: GZ # 集群名称
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 12345
+    url: jdbc:mysql://127.0.0.1:13306/questionnaire?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+
+mybatis:
+  typeAliasesPackage: com.userManagement.dao.entity
+  mapperLocations: classpath:mapper/*.xml
+  #开启MyBatis的二级缓存
+  configuration:
+    cache-enabled: true

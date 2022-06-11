@@ -1,0 +1,21 @@
+server:
+  port: 10001
+spring:
+  datasource:
+    username: root
+    password: 12345
+    driver-class-name: com.mysql.cj.jdbc.Driver #mysql8
+    url: jdbc:mysql://127.0.0.1:13306/questionnaire?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+  application:
+    name: project-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+
+mybatis:
+  typeAliasesPackage: com.projectManagement.dao.entity
+  mapperLocations: classpath:mapper/*.xml
+    #开启MyBatis的二级缓存
+  configuration:
+    cache-enabled: true

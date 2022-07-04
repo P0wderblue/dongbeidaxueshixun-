@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aim.questionnaire.dao.ProjectMapper">
+
+    <resultMap type="com.aim.questionnaire.entity.ProjectEntity" id="ProjectMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="projectName" column="project_name" jdbcType="INTEGER"/>
+        <result property="projectContent" column="project_content" jdbcType="VARCHAR"/>
+        <result property="createdBy" column="created_by" jdbcType="VARCHAR"/>
+        <result property="creationDate" column="creation_date" jdbcType="TIMESTAMP"/>
+        <result property="lastUpdatedBy" column="last_updated_by" jdbcType="TIMESTAMP"/>
+        <result property="lastUpdateDate" column="last_update_date" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询所有-->
+    <select id="queryAll" resultMap="ProjectMap">
+        select id,
+               user_id,
+               project_name,
+               project_content,
+               created_by,
+               creation_date,
+               last_updated_by,
+               last_update_date
+        from project
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ProjectMap">
+        select id,
+               user_id,
+               project_name,
+               project_content,
+               created_by,
+               creation_date,
+               last_updated_by,
+               last_update_date
+        from project
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryList" resultMap="ProjectMap">
+        select
+        id, user_id, project_name, project_content, created_by, creation_date, last_updated_by, last_update_date
+        from project
+        <where>is_delete=0
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
+            <if test="projectName != null">
+                and project_name LIKE concat('%', #{projectName},'%')
+            </if>
+            <if test="projectContent != null and projectContent != ''">
+                and project_content = #{projectContent}
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                and created_by = #{createdBy}
+            </if>
+            <if test="creationDate != null">
+                and creation_date = #{creationDate}
+            </if>
+            <if test="lastUpdatedBy != null">
+                and last_updated_by = #{lastUpdatedBy}
+            </if>
+            <if test="lastUpdateDate != null">
+                and last_update_date = #{lastUpdateDate}
+            </if>
+        </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryNextPage" resultMap="ProjectMap">
+        select
+        id
+        from project
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
+            <if test="projectName != null">
+                and project_name = #{projectName}
+            </if>
+            <if test="projectContent != null and projectContent != ''">
+                and project_content = #{projectContent}
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                and created_by = #{createdBy}
+            </if>
+            <if test="creationDate != null">
+                and creation_date = #{creationDate}
+            </if>
+            <if test="lastUpdatedBy != null">
+                and last_updated_by = #{lastUpdatedBy}
+            </if>
+            <if test="lastUpdateDate != null">
+                and last_update_date = #{lastUpdateDate}
+            </if>
+        </where>
+        limit 1
+    </select>
+
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from project
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
+            <if test="projectName != null">
+                and project_name LIKE concat('%', #{projectName},'%')
+            </if>
+            <if test="projectContent != null and projectContent != ''">
+                and project_content = #{projectContent}
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                and created_by = #{createdBy}
+            </if>
+            <if test="creationDate != null">
+                and creation_date = #{creationDate}
+            </if>
+            <if test="lastUpdatedBy != null">
+                and last_updated_by = #{lastUpdatedBy}
+            </if>
+            <if test="lastUpdateDate != null">
+                and last_update_date = #{lastUpdateDate}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="projectName != null">project_name,</if>
+            <if test="projectContent != null">project_content,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="creationDate != null">creation_date,</if>
+            <if test="lastUpdatedBy != null">last_updated_by,</if>
+            <if test="lastUpdateDate != null">last_update_date,</if>
+            <if test="createdId != null">created_id,</if>
+            <if test="lastUpdatedId != null">last_updated_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="projectName != null">#{projectName},</if>
+            <if test="projectContent != null">#{projectContent},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="creationDate != null">#{creationDate},</if>
+            <if test="lastUpdatedBy != null">#{lastUpdatedBy},</if>
+            <if test="lastUpdateDate != null">#{lastUpdateDate},</if>
+            <if test="createdId != null">#{createdId},</if>
+            <if test="lastUpdatedId != null">#{lastUpdatedId},</if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into project(user_id, project_name, project_content, created_by, creation_date, last_updated_by,
+        last_update_date)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.userId}, #{entity.projectName}, #{entity.projectContent}, #{entity.createdBy},
+            #{entity.creationDate}, #{entity.lastUpdatedBy}, #{entity.lastUpdateDate})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into project(user_id, project_name, project_content, created_by, creation_date, last_updated_by,
+        last_update_date)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.userId}, #{entity.projectName}, #{entity.projectContent}, #{entity.createdBy},
+            #{entity.creationDate}, #{entity.lastUpdatedBy}, #{entity.lastUpdateDate})
+        </foreach>
+        on duplicate key update
+        user_id = values(user_id),
+        project_name = values(project_name),
+        project_content = values(project_content),
+        created_by = values(created_by),
+        creation_date = values(creation_date),
+        last_updated_by = values(last_updated_by),
+        last_update_date = values(last_update_date)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update project
+        <set>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
+            <if test="projectName != null">
+                project_name = #{projectName},
+            </if>
+            <if test="projectContent != null and projectContent != ''">
+                project_content = #{projectContent},
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                created_by = #{createdBy},
+            </if>
+            <if test="creationDate != null">
+                creation_date = #{creationDate},
+            </if>
+            <if test="lastUpdatedBy != null">
+                last_updated_by = #{lastUpdatedBy},
+            </if>
+            <if test="lastUpdateDate != null">
+                last_update_date = #{lastUpdateDate},
+            </if>
+            <if test="createdId != null">
+                created_id = #{createdId},
+            </if>
+            <if test="lastUpdatedId != null">
+                last_updated_id = #{lastUpdatedId},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from project
+        where id = #{id}
+    </delete>
+
+    <select id="queryTotal" resultType="int">
+        select
+        count(id)
+        from project
+        <where>is_delete=0
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
+            <if test="projectName != null">
+                and project_name LIKE concat('%', #{projectName},'%')
+            </if>
+            <if test="projectContent != null and projectContent != ''">
+                and project_content = #{projectContent}
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                and created_by = #{createdBy}
+            </if>
+            <if test="creationDate != null">
+                and creation_date = #{creationDate}
+            </if>
+            <if test="lastUpdatedBy != null">
+                and last_updated_by = #{lastUpdatedBy}
+            </if>
+            <if test="lastUpdateDate != null">
+                and last_update_date = #{lastUpdateDate}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryProjectName" resultType="int">
+        select count(id) from project where project_name=#{projectName}
+    </select>
+
+    <select id="queryProjectNameId" resultType="int">
+        select count(id) from project where project_name=#{projectName} and id &lt;&gt; #{id}
+    </select>
+
+</mapper>
+

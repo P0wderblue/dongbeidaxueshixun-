@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>问卷提交统计分析</title>
+    <style>
+        #pie {
+            width: 400px;
+            height: 400px;
+        }
+    </style>
+    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="answerQuestionJs/echarts.js"></script>
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/bootstrap-table/css/bootstrap-table.css">
+    <link rel="stylesheet" type="text/css" href="../css/default.css?v=4"/>
+    <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css">
+    <link rel="Stylesheet" type="text/css" href="../css/NewDefault.css?v=12"/>
+    <link rel="Stylesheet" type="text/css" href="../css/WjxDesign360.css?v=10"/>
+    <link rel="stylesheet" type="text/css" href="../css/selectpick.css"/>
+    <link rel="stylesheet" href="../css/send.css">
+</head>
+
+<body>
+<div  id="pie"style="margin-left: 600px;width: 40%;height:40% "></div>
+<div  id="pie1"style="margin-left: 600px;width: 40%;height:40% "></div>
+<div>  <text style="font-size: 20px;font-weight: bolder;margin-bottom: 10px" >分析：</text>
+    <input style="height: 30px;margin-top: 100px;" type="text" id="remark"/>
+    <button style="color: #fff; background-color: #1ea0fa; border-color: #1ea0fa;height: 30px;margin-left: 10px;
+    "
+            onclick="submit()">
+        <text style="font-size: 20px;font-weight: bolder;margin-bottom: 5px">备注</text>
+
+    </button>
+    <button style="color: #fff; background-color: #1ea0fa; border-color: #1ea0fa;height: 30px;margin-left: 10px"
+            onclick="returnPage()"><text style="font-size: 20px;font-weight: bolder;margin-bottom: 5px">结束浏览</text>
+    </button>
+</div>
+
+
+<script src="../plugins/layer/layer.js"></script>
+<script src="../plugins/cookie/jquery.cookie.js"></script>
+<script src="../plugins/daterangepicker/moment.min.js"></script>
+<script src="../plugins/daterangepicker/daterangepicker.js"></script>
+<script src="../common/common.js"></script>
+<script>
+    //调用接口，获取返回值（返回数量）
+    var dataIp = [];
+    var questionnaireId = 0;
+    var proId = 0;
+
+    function queryIp() {
+        //查询统计图
+        questionnaireId = getQueryString("questionnaireId");
+        proId = getQueryString("proId");
+        var url = '/questionnaireAnswer/statistics/' + questionnaireId;
+        commonAjaxGet(false, url, function (result) {
+            if (result.code == "666") {
+                dataIp = result.data;
+            } else if (result.code == "333") {
+                layer.msg(result.message);
+            } else {
+                layer.msg("发送异常")
+            }
+        });
+
+        //查询单条问卷信息
+        commonAjaxGet(false, '/questionnaire/queryObject/' + questionnaireId, function (result) {
+            if (result.code == "666") {
+                $("#remark").val(result.data.remark);
+            } else if (result.code == "333") {
+                layer.msg(result.message);
+            } else {
+                layer.msg("发送异常")
+            }
+        });
+    }
+
+    queryIp();
+    var arr1 = new Array();
+    var arr2 = new Array();
+        console.log("11111111111111",dataIp.length);
+    for(var i = 0;i<dataIp.length;i++){
+
+        arr1[i] = dataIp[i].name;
+
+        arr2[i] = dataIp[i].value;
+
+        console.log(dataIp[i].name);
+        console.log(dataIp[i].value);
+    }
+    // 饼状图
+    // 基于准备好的dom，初始化echarts实例
+    var charts = [];
+    var pie1 = echarts.init(document.getElementById('pie'));
+    // 指定图表的配置项和数据
+    var pieOption = {
+        // 标题
+        title: {
+            text: '问卷提交分析',
+            left: 'center' ,
+
+        },
+        // 图例
+        tooltip: {
+            show: true,
+            trigger: "item",
+            // backgroundColor: "#9e16ff",
+            // {a}（系列名称），{b}（数据项名称），{c}（数值）, {d}（百分比）
+            formatter: "{a}：{b}<br/>{c}个({d}%)"
+        },
+        // 不同区域的颜色
+        color: ['#3e87ff', '#65b2f3', '#659CDB', '#b9cfec', '#2F65A4'],
+        series: [
+            {
+                name: '数量',
+                type: 'pie',
+                // 数组的第一项是内半径，第二项是外半径；可以设置不同的内外半径显示成圆环图
+                radius: '50%',
+                // 饼图的中心（圆心）坐标，数组的第一项是横坐标，第二项是纵坐标；设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度
+                center: ['50%', '50%'],
+                data: dataIp,
+                //  [   {value: 2, name: '114.253.168.117'},
+                //     {value: 12, name: '114.253.168.118'},
+                // ],
+                itemStyle: {
+                    // 显示图例
+                    normal: {
+                        label: {
+                            show: true
+                        },
+                        labelLine: {
+                            show: true
+                        }
+                    },
+                    emphasis: {
+                        // 图形阴影的模糊大小
+                        shadowBlur: 10,
+                        // 阴影水平方向上的偏移距离
+                        shadowOffsetX: 0,
+                        // 阴影颜色
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+    pie1.setOption(pieOption);
+    charts.push(pie1);
+    var pie2 = echarts.init(document.getElementById('pie1'));
+    // 指定图表的配置项和数据
+    var pieOption = {
+        // 标题
+      title: {
+                    text: '依据IP地址划分的问卷提交数量',
+                    left: 'center'
+                },
+
+                xAxis:{
+                    type:'category',
+                    data:arr1
+                },
+                yAxis: {
+                    type:'value'
+                },
+                tooltip: { trigger: 'item'},
+                legend: {
+                    data:['提交的问卷数量'],
+                    orient: 'vertical',
+                    left: 'left'
+                },
+                series: [{
+                    name: '提交的问卷量',
+                    type: 'bar',
+                    data: arr2
+                }],
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(100, 0, 0, 0.5)'
+                    }
+                },
+
+
+
+    };
+    pie2.setOption(pieOption);
+    charts.push(pie2);
+    // window.onresize = function (){
+    //     for(var i =0;i<charts.length;i++){
+    //         charts[i].onresize();
+    //     }
+    // }
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+            return unescape(r[2]);
+        }
+        return null;
+    }
+
+    function submit() {
+        var remark = $("#remark").val();
+        if (remark === "") {
+            layer.msg('请输入备注')
+        }
+        var data = {
+            "remark": remark,
+            "id": questionnaireId
+        }
+        var url = '/questionnaire/update';
+        commonAjaxPost(false, url, data, function (result) {
+            if (result.code == "666") {
+                layer.msg(result.message)
+            } else if (result.code == "333") {
+                layer.msg(result.message);
+            } else {
+                layer.msg("发送异常")
+            }
+        });
+    }
+
+    function returnPage() {
+        window.location.href = 'questionnairesList.html?id=' + proId;
+        return;
+    }
+</script>
+</body>
+
+</html>

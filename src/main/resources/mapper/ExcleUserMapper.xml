@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aim.questionnaire.dao.ExcleUserMapper">
+
+    <resultMap type="com.aim.questionnaire.entity.ExcleUserEntity" id="ExcleUserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="roleType" column="role_type" jdbcType="VARCHAR"/>
+        <result property="studentNumber" column="student_number" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="academy" column="academy" jdbcType="VARCHAR"/>
+        <result property="major" column="major" jdbcType="VARCHAR"/>
+        <result property="classGrade" column="class_grade" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="VARCHAR"/>
+        <result property="wechat" column="wechat" jdbcType="VARCHAR"/>
+        <result property="qq" column="qq" jdbcType="VARCHAR"/>
+        <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
+        <result property="mailbox" column="mailbox" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询所有-->
+    <select id="queryAll" resultMap="ExcleUserMap">
+        select id,
+               role_type,
+               student_number,
+               name,
+               academy,
+               major,
+               class_grade,
+               sex,
+               wechat,
+               qq,
+               mobile,
+               mailbox,
+               create_time
+        from excle_user
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ExcleUserMap">
+        select id,
+               role_type,
+               student_number,
+               name,
+               academy,
+               major,
+               class_grade,
+               sex,
+               wechat,
+               qq,
+               mobile,
+               mailbox,
+               create_time
+        from excle_user
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryList" resultMap="ExcleUserMap">
+        select
+        id, role_type, student_number, name, academy, major, class_grade, sex, wechat, qq, mobile, mailbox, create_time
+        from excle_user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="roleType != null and roleType != ''">
+                and role_type = #{roleType}
+            </if>
+            <if test="studentNumber != null">
+                and student_number LIKE concat('%', #{studentNumber},'%')
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="academy != null and academy != ''">
+                and academy = #{academy}
+            </if>
+            <if test="major != null and major != ''">
+                and major = #{major}
+            </if>
+            <if test="classGrade != null and classGrade != ''">
+                and class_grade = #{classGrade}
+            </if>
+            <if test="sex != null and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="wechat != null and wechat != ''">
+                and wechat = #{wechat}
+            </if>
+            <if test="qq != null and qq != ''">
+                and qq = #{qq}
+            </if>
+            <if test="mobile != null and mobile != ''">
+                and mobile = #{mobile}
+            </if>
+            <if test="mailbox != null and mailbox != ''">
+                and mailbox = #{mailbox}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+        </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from excle_user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="roleType != null and roleType != ''">
+                and role_type = #{roleType}
+            </if>
+            <if test="studentNumber != null and studentNumber != ''">
+                and student_number = #{studentNumber}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="academy != null and academy != ''">
+                and academy = #{academy}
+            </if>
+            <if test="major != null and major != ''">
+                and major = #{major}
+            </if>
+            <if test="classGrade != null and classGrade != ''">
+                and class_grade = #{classGrade}
+            </if>
+            <if test="sex != null and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="wechat != null and wechat != ''">
+                and wechat = #{wechat}
+            </if>
+            <if test="qq != null and qq != ''">
+                and qq = #{qq}
+            </if>
+            <if test="mobile != null and mobile != ''">
+                and mobile = #{mobile}
+            </if>
+            <if test="mailbox != null and mailbox != ''">
+                and mailbox = #{mailbox}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO excle_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleType != null">role_type,</if>
+            <if test="studentNumber != null">student_number,</if>
+            <if test="name != null">name,</if>
+            <if test="academy != null">academy,</if>
+            <if test="major != null">major,</if>
+            <if test="classGrade != null">class_grade,</if>
+            <if test="sex != null">sex,</if>
+            <if test="wechat != null">wechat,</if>
+            <if test="qq != null">qq,</if>
+            <if test="mobile != null">mobile,</if>
+            <if test="mailbox != null">mailbox,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleType != null">#{roleType},</if>
+            <if test="studentNumber != null">#{studentNumber},</if>
+            <if test="name != null">#{name},</if>
+            <if test="academy != null">#{academy},</if>
+            <if test="major != null">#{major},</if>
+            <if test="classGrade != null">#{classGrade},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="wechat != null">#{wechat},</if>
+            <if test="qq != null">#{qq},</if>
+            <if test="mobile != null">#{mobile},</if>
+            <if test="mailbox != null">#{mailbox},</if>
+            <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into excle_user(role_type, student_number, name, academy, major, class_grade, sex, wechat, qq, mobile,
+        mailbox, create_time)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.roleType}, #{entity.studentNumber}, #{entity.name}, #{entity.academy}, #{entity.major},
+            #{entity.classGrade}, #{entity.sex}, #{entity.wechat}, #{entity.qq}, #{entity.mobile}, #{entity.mailbox},
+            #{entity.createTime})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into excle_user(role_type, student_number, name, academy, major, class_grade, sex, wechat, qq, mobile,
+        mailbox, create_time)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.roleType}, #{entity.studentNumber}, #{entity.name}, #{entity.academy}, #{entity.major},
+            #{entity.classGrade}, #{entity.sex}, #{entity.wechat}, #{entity.qq}, #{entity.mobile}, #{entity.mailbox},
+            #{entity.createTime})
+        </foreach>
+        on duplicate key update
+        role_type = values(role_type),
+        student_number = values(student_number),
+        name = values(name),
+        academy = values(academy),
+        major = values(major),
+        class_grade = values(class_grade),
+        sex = values(sex),
+        wechat = values(wechat),
+        qq = values(qq),
+        mobile = values(mobile),
+        mailbox = values(mailbox),
+        create_time = values(create_time)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update excle_user
+        <set>
+            <if test="roleType != null and roleType != ''">
+                role_type = #{roleType},
+            </if>
+            <if test="studentNumber != null and studentNumber != ''">
+                student_number = #{studentNumber},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="academy != null and academy != ''">
+                academy = #{academy},
+            </if>
+            <if test="major != null and major != ''">
+                major = #{major},
+            </if>
+            <if test="classGrade != null and classGrade != ''">
+                class_grade = #{classGrade},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="wechat != null and wechat != ''">
+                wechat = #{wechat},
+            </if>
+            <if test="qq != null and qq != ''">
+                qq = #{qq},
+            </if>
+            <if test="mobile != null and mobile != ''">
+                mobile = #{mobile},
+            </if>
+            <if test="mailbox != null and mailbox != ''">
+                mailbox = #{mailbox},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from excle_user
+        where id = #{id}
+    </delete>
+
+    <select id="queryTotal" resultType="int">
+        select
+        count(id)
+        from excle_user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="roleType != null and roleType != ''">
+                and role_type = #{roleType}
+            </if>
+            <if test="studentNumber != null">
+                and student_number LIKE concat('%', #{studentNumber},'%')
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="academy != null and academy != ''">
+                and academy = #{academy}
+            </if>
+            <if test="major != null and major != ''">
+                and major = #{major}
+            </if>
+            <if test="classGrade != null and classGrade != ''">
+                and class_grade = #{classGrade}
+            </if>
+            <if test="sex != null and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="wechat != null and wechat != ''">
+                and wechat = #{wechat}
+            </if>
+            <if test="qq != null and qq != ''">
+                and qq = #{qq}
+            </if>
+            <if test="mobile != null and mobile != ''">
+                and mobile = #{mobile}
+            </if>
+            <if test="mailbox != null and mailbox != ''">
+                and mailbox = #{mailbox}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="selectStudentNumber" resultType="java.lang.String">
+        select
+        id
+        from excle_user
+        <where>
+            <if test="studentNumber != null and studentNumber != ''">
+                and student_number = #{studentNumber}
+            </if>
+        </where>
+    </select>
+
+
+    <update id="updateUserByName">
+        update excle_user
+        <set>
+            <if test="roleType != null and roleType != ''">
+                role_type = #{roleType},
+            </if>
+            <if test="studentNumber != null and studentNumber != ''">
+                student_number = #{studentNumber},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="academy != null and academy != ''">
+                academy = #{academy},
+            </if>
+            <if test="major != null and major != ''">
+                major = #{major},
+            </if>
+            <if test="classGrade != null and classGrade != ''">
+                class_grade = #{classGrade},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="wechat != null and wechat != ''">
+                wechat = #{wechat},
+            </if>
+            <if test="qq != null and qq != ''">
+                qq = #{qq},
+            </if>
+            <if test="mobile != null and mobile != ''">
+                mobile = #{mobile},
+            </if>
+            <if test="mailbox != null and mailbox != ''">
+                mailbox = #{mailbox},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+        </set>
+        where student_number = #{studentNumber}
+    </update>
+
+
+
+</mapper>
+

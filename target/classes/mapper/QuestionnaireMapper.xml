@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aim.questionnaire.dao.QuestionnaireMapper">
+
+    <resultMap type="com.aim.questionnaire.entity.QuestionnaireEntity" id="QuestionnaireMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="projectId" column="project_id" jdbcType="INTEGER"/>
+        <result property="projectName" column="project_name" jdbcType="VARCHAR"/>
+        <result property="inquiryType" column="inquiry_type" jdbcType="INTEGER"/>
+        <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+        <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+        <result property="createName" column="create_name" jdbcType="VARCHAR"/>
+        <result property="createDate" column="create_date" jdbcType="TIMESTAMP"/>
+        <result property="updateUserName" column="update_user_name" jdbcType="VARCHAR"/>
+        <result property="updateDate" column="update_date" jdbcType="TIMESTAMP"/>
+        <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+        <result property="inquiryName" column="inquiry_name" jdbcType="VARCHAR"/>
+        <result property="inquiryExplain" column="inquiry_explain" jdbcType="VARCHAR"/>
+        <result property="isStart" column="is_start" jdbcType="VARCHAR"/>
+        <result property="clickNumber" column="click_number" jdbcType="VARCHAR"/>
+        <result property="questionName" column="question_name" jdbcType="VARCHAR"/>
+        <result property="questionContent" column="question_content" jdbcType="VARCHAR"/>
+        <result property="questionList" column="question_list" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询所有-->
+    <select id="queryAll" resultMap="QuestionnaireMap">
+        select id,
+               user_id,
+               project_id,
+               project_name,
+               inquiry_type,
+               start_time,
+               end_time,
+               create_name,
+               create_date,
+               update_user_name,
+               update_date,
+               is_delete,
+               inquiry_name,
+               inquiry_explain,
+               is_start,
+               question_name,
+               question_content,
+               question_list,
+               remark,
+               click_number
+        from questionnaire
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="QuestionnaireMap">
+        select id,
+               user_id,
+               project_id,
+               project_name,
+               inquiry_type,
+               start_time,
+               end_time,
+               create_name,
+               create_date,
+               update_user_name,
+               update_date,
+               is_delete,
+               inquiry_name,
+               inquiry_explain,
+               is_start,
+               question_name,
+               question_content,
+               remark,
+               question_list,
+               click_number
+        from questionnaire
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryList" resultMap="QuestionnaireMap">
+        select
+        id, user_id, project_id, project_name, inquiry_type, start_time, end_time, create_name, create_date,
+        update_user_name, update_date, is_delete, inquiry_name, inquiry_explain,is_start, question_name,
+        question_content,remark,
+        question_list,
+        click_number
+        from questionnaire
+        <where>is_delete = 0
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="projectId != null">
+                and project_id = #{projectId}
+            </if>
+            <if test="projectName != null and projectName != ''">
+                and project_name = #{projectName}
+            </if>
+            <if test="inquiryType != null">
+                and inquiry_type = #{inquiryType}
+            </if>
+            <if test="startTime != null">
+                and start_time = #{startTime}
+            </if>
+            <if test="endTime != null">
+                and end_time = #{endTime}
+            </if>
+            <if test="createName != null and createName != ''">
+                and create_name = #{createName}
+            </if>
+            <if test="createDate != null">
+                and create_date = #{createDate}
+            </if>
+            <if test="updateUserName != null and updateUserName != ''">
+                and update_user_name = #{updateUserName}
+            </if>
+            <if test="updateDate != null">
+                and update_date = #{updateDate}
+            </if>
+            <if test="inquiryName != null and inquiryName != ''">
+                and inquiry_name LIKE concat('%', #{inquiryName},'%')
+            </if>
+            <if test="inquiryExplain != null and inquiryExplain != ''">
+                and inquiry_explain = #{inquiryExplain}
+            </if>
+            <if test="questionName != null and questionName != ''">
+                and question_name = #{questionName}
+            </if>
+            <if test="questionContent != null and questionContent != ''">
+                and question_content = #{questionContent}
+            </if>
+            <if test="questionList != null and questionList != ''">
+                and question_list = #{questionList}
+            </if><if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+        </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from questionnaire
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="projectId != null">
+                and project_id = #{projectId}
+            </if>
+            <if test="projectName != null and projectName != ''">
+                and project_name = #{projectName}
+            </if>
+            <if test="inquiryType != null">
+                and inquiry_type = #{inquiryType}
+            </if>
+            <if test="startTime != null">
+                and start_time = #{startTime}
+            </if>
+            <if test="endTime != null">
+                and end_time = #{endTime}
+            </if>
+            <if test="createName != null and createName != ''">
+                and create_name = #{createName}
+            </if>
+            <if test="createDate != null">
+                and create_date = #{createDate}
+            </if>
+            <if test="updateUserName != null and updateUserName != ''">
+                and update_user_name = #{updateUserName}
+            </if>
+            <if test="updateDate != null">
+                and update_date = #{updateDate}
+            </if>
+            <if test="isDelete != null">
+                and is_delete = #{isDelete}
+            </if>
+            <if test="inquiryName != null and inquiryName != ''">
+                and inquiry_name = #{inquiryName}
+            </if>
+            <if test="inquiryExplain != null and inquiryExplain != ''">
+                and inquiry_explain = #{inquiryExplain}
+            </if>
+            <if test="questionName != null and questionName != ''">
+                and question_name = #{questionName}
+            </if>
+            <if test="questionContent != null and questionContent != ''">
+                and question_content = #{questionContent}
+            </if>
+            <if test="questionList != null and questionList != ''">
+                and question_list = #{questionList}
+            </if> <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO questionnaire
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="projectId != null">project_id,</if>
+            <if test="projectName != null">project_name,</if>
+            <if test="inquiryType != null">inquiry_type,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="createName != null">create_name,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUserName != null">update_user_name,</if>
+            <if test="updateDate != null">update_date,</if>
+            <if test="isDelete != null">is_delete,</if>
+            <if test="inquiryName != null">inquiry_name,</if>
+            <if test="inquiryExplain != null">inquiry_explain,</if>
+            <if test="isStart != null">is_start,</if>
+            <if test="clickNumber != null">click_number,</if>
+            <if test="questionName != null">question_name,</if>
+            <if test="questionContent != null">question_content,</if>
+            <if test="questionList != null">question_list,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="projectId != null">#{projectId},</if>
+            <if test="projectName != null">#{projectName},</if>
+            <if test="inquiryType != null">#{inquiryType},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="createName != null">#{createName},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="updateUserName != null">#{updateUserName},</if>
+            <if test="updateDate != null">#{updateDate},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+            <if test="inquiryName != null">#{inquiryName},</if>
+            <if test="inquiryExplain != null">#{inquiryExplain},</if>
+            <if test="isStart != null">#{isStart},</if>
+            <if test="clickNumber != null">#{clickNumber},</if>
+            <if test="questionName != null">#{questionName},</if>
+            <if test="questionContent != null">#{questionContent},</if>
+            <if test="questionList != null">#{questionList},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into questionnaire(user_id, project_id, project_name, inquiry_type, start_time, end_time,
+        create_name, create_date, update_user_name, update_date, is_delete, inquiry_name,  question_name, question_content, question_list,remark,inquiry_explain)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.userId}, #{entity.projectId}, #{entity.projectName}, #{entity.inquiryType},
+            #{entity.startTime}, #{entity.endTime}, #{entity.createName}, #{entity.createDate},
+            #{entity.updateUserName}, #{entity.updateDate}, #{entity.isDelete}, #{entity.inquiryName},#{entity.questionName}, #{entity.questionContent},
+            #{entity.questionList}, #{remark},
+            #{entity.inquiryExplain})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update questionnaire
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="projectId != null">
+                project_id = #{projectId},
+            </if>
+            <if test="projectName != null and projectName != ''">
+                project_name = #{projectName},
+            </if>
+            <if test="inquiryType != null">
+                inquiry_type = #{inquiryType},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime},
+            </if>
+            <if test="createName != null and createName != ''">
+                create_name = #{createName},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate},
+            </if>
+            <if test="updateUserName != null and updateUserName != ''">
+                update_user_name = #{updateUserName},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete},
+            </if>
+            <if test="inquiryName != null and inquiryName != ''">
+                inquiry_name = #{inquiryName},
+            </if>
+            <if test="inquiryExplain != null and inquiryExplain != ''">
+                inquiry_explain = #{inquiryExplain},
+            </if>
+            <if test="isStart != null">
+                is_start = #{isStart},
+            </if>
+            <if test="clickNumber != null and clickNumber != ''">
+                click_number = #{clickNumber},
+            </if>
+            <if test="questionName != null and questionName != ''">
+                question_name = #{questionName},
+            </if>
+            <if test="questionContent != null and questionContent != ''">
+                question_content = #{questionContent},
+            </if>
+            <if test="questionList != null and questionList != ''">
+                question_list = #{questionList},
+            </if><if test="remark != null and remark != ''">
+            remark = #{remark},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from questionnaire
+        where id = #{id}
+    </delete>
+
+    <select id="queryTotal" resultType="int">
+        select
+        count(id)
+        from questionnaire
+        <where>is_delete = 0
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="projectId != null">
+                and project_id = #{projectId}
+            </if>
+            <if test="projectName != null and projectName != ''">
+                and project_name = #{projectName}
+            </if>
+            <if test="inquiryType != null">
+                and inquiry_type = #{inquiryType}
+            </if>
+            <if test="startTime != null">
+                and start_time = #{startTime}
+            </if>
+            <if test="endTime != null">
+                and end_time = #{endTime}
+            </if>
+            <if test="createName != null and createName != ''">
+                and create_name = #{createName}
+            </if>
+            <if test="createDate != null">
+                and create_date = #{createDate}
+            </if>
+            <if test="updateUserName != null and updateUserName != ''">
+                and update_user_name = #{updateUserName}
+            </if>
+            <if test="updateDate != null">
+                and update_date = #{updateDate}
+            </if>
+            <if test="inquiryName != null and inquiryName != ''">
+                and inquiry_name LIKE concat('%', #{inquiryName},'%')
+            </if>
+            <if test="inquiryExplain != null and inquiryExplain != ''">
+                and inquiry_explain = #{inquiryExplain}
+            </if>
+            <if test="isStart != null">
+                and is_start = #{isStart}
+            </if>
+            <if test="questionName != null and questionName != ''">
+                question_name = #{questionName},
+            </if>
+            <if test="questionContent != null and questionContent != ''">
+                question_content = #{questionContent},
+            </if>
+            <if test="questionList != null and questionList != ''">
+                question_list = #{questionList},
+            </if> <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+        </where>
+    </select>
+
+
+    <select id="queryInquiryMame" resultType="int">
+        select count(id)
+        from questionnaire
+        where inquiry_name = #{inquiryName}
+    </select>
+    <select id="queryInquiryMameId" resultType="int">
+        select count(id)
+        from questionnaire
+        where inquiry_name = #{inquiryName}
+          and id &lt;&gt; #{id}
+    </select>
+</mapper>
+

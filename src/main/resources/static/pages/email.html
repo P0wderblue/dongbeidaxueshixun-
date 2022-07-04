@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="ctl01_Head1">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE10"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand"/>
+    <meta id="ctl01_keywords" name="keywords"/>
+    <title>发送邮件</title>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link id="ctl01_cssdefault" rel="stylesheet" type="text/css" href="../css/default.css?v=4"/>
+    <link id="ctl01_cssmaster" rel="stylesheet" type="text/css" href="../css/wjxmaster.css?v=4"/>
+    <link rel="stylesheet" type="text/css" href="../css/choosetype.css?v=4"/>
+
+    <link rel="stylesheet" href="../css/myquestionnaires.css">
+
+    <link rel="stylesheet" type="text/css" href="../css/choosetype.css?v=4" />
+    <link rel="stylesheet" href="../css/createblank.css">
+    <style type="text/css">
+        .form-control {
+            display: inline-block;
+            width: 50%;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            vertical-align: bottom;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        }
+
+        /*.historyQuestionClass{*/
+        /*display: block;*/
+        /*}*/
+        #historyQuestion {
+            display: none;
+        }
+
+        #typeQuestion {
+            display: none;
+        }
+
+        .editModal {
+            width: 100px;
+            height: 40px;
+            font-size: 20px;
+            line-height: 36px;
+            border-width: 2px;
+            margin-left: -120px;
+            border-radius: 6px;
+            margin-top: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<!--<div class="main-wrapper">-->
+<!--    <div class="create-box">-->
+<!--        <div class="create__fill">-->
+<!--            <div class="fill__name-box clearfix">-->
+<!--                <label for="projectName" class="pull-left" id="spanName" style="position: relative;"><span style="color:red;left: 65px;top: 5px;position: absolute;">*</span>项目名称：</label>-->
+<!--                <div class="pull-left">-->
+<!--                    <input name="ctl01$ContentPlaceHolder1$txtQName" type="text" id="projectName" class="pull-left" style="line-height:50px; margin-bottom: 14px;">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="fill__name-box clearfix">-->
+<!--                <label for="inputIntro" class="pull-left" id="spanIntro" style="position: relative;"><span style="color:red;left: 65px;top: 5px;position: absolute;">*</span>项目描述：</label>-->
+<!--                <div class="pull-left">-->
+<!--                    <textarea id="inputIntro" name="ctl01$ContentPlaceHolder1$txtQName" type="text" class="pull-left describe"-->
+<!--                              style="height: 100px;width: 800px;border-radius: 5px;margin-left: 10px;font-size: 16px;line-height: 40px; padding-left: 10px;"></textarea>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="btn-block" style="position:relative;">-->
+<!--                <table align="center">-->
+<!--                    <tbody>-->
+<!--                    <tr>-->
+<!--                        <td valign="top">-->
+<!--                            <div id="spanCode" style="float: left; display: inline; margin-top: 60px">-->
+<!--                            </div>-->
+<!--                            &nbsp;&nbsp;&nbsp;-->
+<!--                        </td>-->
+<!--                        <td valign="middle" style="padding-bottom: 30px;">-->
+<!--                            <button onclick="createProject();" id="ctl01_ContentPlaceHolder1_lbtnNextStep" class="btn btn-default create__btn-new" style="width:200px;">提交</button>-->
+<!--                            <div style="float: right; display: inline; margin-top: 58px; margin-left: 30px;">-->
+<!--                                <span id="ctl01_ContentPlaceHolder1_lblMsg" style="color:Red;"></span>-->
+<!--                            </div>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<div id="BS">
+    <div class="header"></div>
+
+    <div class="BS-box" style="text-align:left;">
+        <div>
+            <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE"
+                   value="/wEPDwUKLTY3MDU3Njg2NA9kFgJmD2QWDAICDxYCHgdWaXNpYmxlaGQCAw8WAh8AaGQCBA8WAh8AZ2QCBQ8PFgIeBFRleHQFCzE1ODQwMDY4OTczZGQCBg8WAh8AaGQCCA8WAh8AaGRkIOF/W2JYq+I88lfP3gF6rq014OM="/>
+        </div>
+        <div>
+            <input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="4BF947A9"/>
+        </div>
+        <div class="nav-header">
+            <div class="container">
+                <div class="nav-wrapper clearfix">
+                    <h1 id="title" class="hd-title pull-left">发送邮件</h1>
+                </div>
+            </div>
+        </div>
+        <div class="main-wrapper">
+            <div class="create-box">
+                <div class="create__fill">
+                    <div class="fill__name-box clearfix">
+                        <label for="email" class="pull-left" id="spanName" style="position: relative;"><span style="color:red;left: 65px;top: 5px;position: absolute;">*</span>对方邮箱：</label>
+                        <div class="pull-left">
+                            <input name="ctl01$ContentPlaceHolder1$txtQName" type="text" id="email" class="pull-left" style="line-height:50px; margin-bottom: 14px;" placeholder="请输入收件人" onfocus="if(placeholder=='请输入收件人'){placeholder='';}"
+                                   onblur="if(placeholder==''){placeholder='请输入收件人';}">
+                        </div>
+                    </div>
+                    <div class="fill__name-box clearfix">
+                        <label for="emailContent" class="pull-left" id="spanIntro" style="position: relative;"><span style="color:red;left: 65px;top: 5px;position: absolute;">*</span>邮件正文：</label>
+                        <div class="pull-left">
+                    <textarea id="emailContent" name="ctl01$ContentPlaceHolder1$txtQName" type="text" class="pull-left describe"
+                              style="height: 100px;width: 800px;border-radius: 5px;margin-left: 10px;font-size: 16px;line-height: 40px; padding-left: 10px;" placeholder="已包含问卷链接地址不必重复输入" onfocus="if(placeholder=='已包含问卷链接地址不必重复输入'){placeholder='';}"
+                              onblur="if(placeholder==''){placeholder='已包含问卷链接地址不必重复输入';}"></textarea>
+                        </div>
+                    </div>
+                    <div class="btn-block" style="position:relative;">
+                        <table align="center">
+                            <tbody>
+                            <tr>
+                                <td valign="top">
+                                    <div id="spanCode" style="float: left; display: inline; margin-top: 60px">
+                                    </div>
+                                    &nbsp;&nbsp;&nbsp;
+                                </td>
+                                <td valign="middle" style="padding-bottom: 30px;">
+                                    <button onclick="email();" id="ctl01_ContentPlaceHolder1_lbtnNextStep"
+                                            class="btn btn-default create__btn-new" style="width:200px;height: 40px;
+                                    font-size: 20px;
+                                    margin-top: 40px">发送邮件
+                                    </button>                                    <div style="float: right; display: inline; margin-top: 58px; margin-left: 30px;">
+                                        <span id="ctl01_ContentPlaceHolder1_lblMsg" style="color:Red;"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--<div id="BS">-->
+<!--    <div class="header"></div>-->
+
+<!--    <div class="BS-box" style="text-align:left;">-->
+<!--        <div>-->
+<!--            <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE"-->
+<!--                   value="/wEPDwUKLTY3MDU3Njg2NA9kFgJmD2QWDAICDxYCHgdWaXNpYmxlaGQCAw8WAh8AaGQCBA8WAh8AZ2QCBQ8PFgIeBFRleHQFCzE1ODQwMDY4OTczZGQCBg8WAh8AaGQCCA8WAh8AaGRkIOF/W2JYq+I88lfP3gF6rq014OM="/>-->
+<!--        </div>-->
+<!--        <div>-->
+<!--            <input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="4BF947A9"/>-->
+<!--        </div>-->
+<!--        <div class="nav-header">-->
+<!--            <div class="container">-->
+<!--                <div class="nav-wrapper clearfix">-->
+<!--                    <h1 id="title" class="hd-title pull-left">发送邮件</h1>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="create__fill">-->
+<!--            <div style="width: 737px;margin-top: 20px">-->
+<!--&lt;!&ndash;                <label class="control-label fontWeight" style="font-size: 26px;margin-left: 124px;font-weight: 500">问卷主题:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                <input class="form-control select" id="em" title='问卷主题' data-first-option="false"&ndash;&gt;-->
+<!--&lt;!&ndash;                       data-live-search="true" style="margin-left: 16px"/>&ndash;&gt;-->
+<!--                <label class="control-label fontWeight" style="font-size: 26px;margin-left: 124px;font-weight: 500">收件人:</label>-->
+<!--                <input class="form-control selectpicker" id="email" title='收件人' data-first-option="false"-->
+<!--                       data-live-search="true" style="margin-left: 16px"/>-->
+<!--            </div>-->
+
+<!--            <div class="fill__name-box clearfix">-->
+<!--                <label for="projectName" class="pull-left" id="spanName" style="position: relative;"><span style="color:red;left: 65px;top: 5px;position: absolute;">*</span>项目名称：</label>-->
+<!--                <div class="pull-left">-->
+<!--                    <input name="ctl01$ContentPlaceHolder1$txtQName" type="text" id="projectName" class="pull-left" style="line-height:50px; margin-bottom: 14px;">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="fill__name-box clearfix">-->
+<!--                <label for="inputIntro" class="pull-left" id="spanIntro" style="position: relative;"><span style="color:red;left: 65px;top: 5px;position: absolute;">*</span>项目描述：</label>-->
+<!--                <div class="pull-left">-->
+<!--                    <textarea id="inputIntro" name="ctl01$ContentPlaceHolder1$txtQName" type="text" class="pull-left describe"-->
+<!--                              style="height: 100px;width: 800px;border-radius: 5px;margin-left: 10px;font-size: 16px;line-height: 40px; padding-left: 10px;"></textarea>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="btn-block">-->
+<!--                <table style="margin-left: 360px">-->
+<!--                    <tbody>-->
+<!--                    <tr>-->
+<!--                        <td valign="top">-->
+<!--                            <div id="spanCode" style="float: left; display: inline; margin-top: 60px">-->
+<!--                            </div>-->
+<!--                            &nbsp;&nbsp;&nbsp;-->
+<!--                        </td>-->
+<!--                        <td valign="middle" style="padding-bottom: 30px;">-->
+<!--                            <button onclick="email();" id="ctl01_ContentPlaceHolder1_lbtnNextStep"-->
+<!--                                    class="btn btn-default create__btn-new" style="width:200px;height: 40px;-->
+<!--    font-size: 20px;-->
+<!--    margin-top: 40px">发送邮件-->
+<!--                            </button>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+<!--<div style="display:none;"></div>-->
+<script src="../plugins/jQuery/jquery-1.12.4.min.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="../plugins/cookie/jquery.cookie.js"></script>
+<script src="../plugins/layer/layer.js"></script>
+<script src="../js/jquery.base64.js"></script>
+<script src="../common/common.js"></script>
+<script src="answerQuestionJs/email.js"></script>
+
+
+</body>
+
+</html>
+
+

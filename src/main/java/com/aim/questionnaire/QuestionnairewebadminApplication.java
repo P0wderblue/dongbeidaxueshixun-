@@ -15,7 +15,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @MapperScan("com.aim.questionnaire.dao")
 public class QuestionnairewebadminApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(QuestionnairewebadminApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(com.aim.questionnaire.
+            QuestionnairewebadminApplication.class, args);
+    }
 }

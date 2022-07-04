@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="ctl01_Head1">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE10"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand"/>
+    <meta id="ctl01_keywords" name="keywords"/>
+    <title>创建问卷</title>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link id="ctl01_cssdefault" rel="stylesheet" type="text/css" href="../css/default.css?v=4"/>
+    <link id="ctl01_cssmaster" rel="stylesheet" type="text/css" href="../css/wjxmaster.css?v=4"/>
+    <link rel="stylesheet" type="text/css" href="../css/choosetype.css?v=4"/>
+    <style type="text/css">
+        .form-control {
+            display: inline-block;
+            width: 50%;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            vertical-align: bottom;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        }
+
+        /*.historyQuestionClass{*/
+        /*display: block;*/
+        /*}*/
+        #historyQuestion {
+            display: none;
+        }
+
+        #typeQuestion {
+            display: none;
+        }
+
+        .editModal {
+            width: 100px;
+            height: 40px;
+            font-size: 20px;
+            line-height: 36px;
+            border-width: 2px;
+            margin-left: -120px;
+            border-radius: 6px;
+            margin-top: 12px;
+        }
+    </style>
+</head>
+<body>
+<div id="BS">
+    <div class="header"></div>
+
+    <div class="BS-box" style="text-align:left;">
+        <div>
+            <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE"
+                   value="/wEPDwUKLTY3MDU3Njg2NA9kFgJmD2QWDAICDxYCHgdWaXNpYmxlaGQCAw8WAh8AaGQCBA8WAh8AZ2QCBQ8PFgIeBFRleHQFCzE1ODQwMDY4OTczZGQCBg8WAh8AaGQCCA8WAh8AaGRkIOF/W2JYq+I88lfP3gF6rq014OM="/>
+        </div>
+        <div>
+            <input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="4BF947A9"/>
+        </div>
+        <div class="nav-header">
+            <div class="container">
+                <div class="nav-wrapper clearfix">
+                    <h1 id="title" class="hd-title pull-left">导入问卷</h1>
+                </div>
+            </div>
+        </div>
+        <div class="section main-wrapper">
+
+            <div style="width: 737px;margin-top: 20px">
+                <label class="control-label fontWeight" style="font-size: 26px;margin-left: 124px;font-weight: 500">调查名称:</label>
+                <input class="form-control selectpicker" id="inquiryName" title='调查名称' data-first-option="false"
+                       data-live-search="true" style="margin-left: 16px"/>
+            </div>
+            <div style="width: 737px;margin-top: 20px">
+                <label class="control-label fontWeight" style="font-size: 26px;margin-left: 124px;font-weight: 500">所属项目:</label>
+                <select class="form-control selectpicker" id="belongProject" title='所属项目' data-first-option="false"
+                        data-live-search="true" style="margin-left: 16px">
+                </select>
+            </div>
+            <div style="width: 737px;margin-top: 20px">
+                <label class="control-label fontWeight" style="font-size: 26px;margin-left: 124px;font-weight: 500">调查类型:</label>
+                <select class="form-control selectpicker" id="belongType" title='调查类型' data-first-option="false"
+                        onchange="changeType()"
+                        data-live-search="true" style="margin-left: 16px">
+                </select>
+            </div>
+            <div style="width: 737px;margin-top: 20px">
+                <label class="control-label fontWeight" style="font-size: 26px;margin-left: 124px;font-weight: 500">开始时间:</label>
+                <input class="form-control selectpicker" id="startDate" title='开始时间' data-first-option="false"
+                       data-live-search="true" style="margin-left: 16px" type="datetime-local" class="measureDate" />
+            </div>
+            <div style="width: 737px;margin-top: 20px">
+                <label class="control-label fontWeight" style="font-size: 26px;margin-left: 124px;font-weight: 500">结束时间:</label>
+                <input class="form-control selectpicker" id="endDate" title='结束时间' data-first-option="false"
+                       data-live-search="true" style="margin-left: 16px" type="datetime-local" class="measureDate" />
+            </div>
+            <div style="width: 737px;margin-top: 20px">
+                <label class="control-label fontWeight"
+                       style="font-size: 26px;margin-left: 124px;font-weight: 500 ;padding-bottom: 60px;">调查说明:</label>
+                <input class="form-control selectpicker" id="inquiryExplain" title='调查说明' data-first-option="false"
+                       data-live-search="true" style="margin-left: 16px;height: 100px;"/>
+            </div>
+            <div style="width: 737px;margin-top: 20px">
+                <label class="control-label fontWeight" style="font-size: 26px;margin-left: 124px;font-weight: 500">导入问卷:</label>
+                <select class="form-control selectpicker" id="questionnaire" title='导入问卷' data-first-option="false"
+                        data-live-search="true" style="margin-left: 16px">
+                </select>
+            </div>
+
+            <div class="btn-block" >
+                <table style="margin-left: 360px" >
+                    <tbody>
+                    <tr>
+                        <td valign="top">
+                            <div id="spanCode" style="float: left; display: inline; margin-top: 60px">
+                            </div>
+                            &nbsp;&nbsp;&nbsp;
+                        </td>
+                        <td valign="middle" style="padding-bottom: 30px;">
+                            <button onclick="importTemplate();" id="ctl01_ContentPlaceHolder1_lbtnNextStep"
+                                    class="btn btn-default create__btn-new" style="width:200px;height: 40px;
+    font-size: 20px;
+    margin-top: 40px">提交
+                            </button>
+                            <div style="float: right; display: inline; margin-top: 58px; margin-left: 30px;">
+                                <span id="ctl01_ContentPlaceHolder1_lblMsg" style="color:Red;"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!--分割线-->
+        <div id='line'
+             style="font-size: 18px;color: #cccccc;border-top: 1px solid #cccccc;width:1000px;margin:0 auto;display: none;margin-top: 30px;">
+            <em class="word"
+                style="color:#888888;position: relative;top: -11px; font-style: normal;padding: 0 6px; background-color: #fff;">选择模板</em>
+        </div>
+        <div class="module-box clearfix" id="historyQuestion">
+
+        </div>
+        <div class="module-box clearfix" id="typeQuestion">
+        </div>
+    </div>
+</div>
+</div>
+<div style="display:none;"></div>
+<script src="../plugins/jQuery/jquery-1.12.4.min.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="../plugins/cookie/jquery.cookie.js"></script>
+<script src="../plugins/layer/layer.js"></script>
+<script src="../js/jquery.base64.js"></script>
+<script src="../common/common.js"></script>
+<script src="answerQuestionJs/importQuestionnaires.js"></script>
+</body>
+</html>
+
+

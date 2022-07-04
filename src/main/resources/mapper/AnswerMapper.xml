@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aim.questionnaire.dao.AnswerMapper">
+
+    <resultMap type="com.aim.questionnaire.entity.AnswerEntity" id="QuestionnaireAnswerMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="questionnaireId" column="questionnaire_id" jdbcType="INTEGER"/>
+        <result property="questionName" column="question_name" jdbcType="VARCHAR"/>
+        <result property="questionContent" column="question_content" jdbcType="VARCHAR"/>
+        <result property="responseTime" column="response_time" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="submitIp" column="submit_ip" jdbcType="VARCHAR"/>
+        <result property="answer" column="answer" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询所有-->
+    <select id="queryAll" resultMap="QuestionnaireAnswerMap">
+        select id,
+               questionnaire_id,
+               question_name,
+               question_content,
+               response_time,
+               create_time,
+               submit_ip,
+               answer
+        from answer
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="QuestionnaireAnswerMap">
+        select id,
+               questionnaire_id,
+               question_name,
+               question_content,
+               response_time,
+               create_time,
+               submit_ip,
+               answer
+        from answer
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryList" resultMap="QuestionnaireAnswerMap">
+        select
+        id, questionnaire_id, question_name, question_content, response_time, create_time, submit_ip, answer
+        from answer
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="questionnaireId != null">
+                and questionnaire_id = #{questionnaireId}
+            </if>
+            <if test="questionName != null and questionName != ''">
+                and question_name = #{questionName}
+            </if>
+            <if test="questionContent != null and questionContent != ''">
+                and question_content = #{questionContent}
+            </if>
+            <if test="responseTime != null and responseTime != ''">
+                and response_time = #{responseTime}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="submitIp != null and submitIp != ''">
+                and submit_ip = #{submitIp}
+            </if>
+            <if test="answer != null and answer != ''">
+                and answer = #{answer}
+            </if>
+        </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+
+
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from answer
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="questionnaireId != null">
+                and questionnaire_id = #{questionnaireId}
+            </if>
+            <if test="questionName != null and questionName != ''">
+                and question_name = #{questionName}
+            </if>
+            <if test="questionContent != null and questionContent != ''">
+                and question_content = #{questionContent}
+            </if>
+            <if test="responseTime != null and responseTime != ''">
+                and response_time = #{responseTime}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="submitIp != null and submitIp != ''">
+                and submit_ip = #{submitIp}
+            </if>
+            <if test="answer != null and answer != ''">
+                and answer = #{answer}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO answer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="questionnaireId != null">questionnaire_id,</if>
+            <if test="questionName != null">question_name,</if>
+            <if test="questionContent != null">question_content,</if>
+            <if test="responseTime != null">response_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="submitIp != null">submit_ip,</if>
+            <if test="answer != null">answer,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="questionnaireId != null">#{questionnaireId},</if>
+            <if test="questionName != null">#{questionName},</if>
+            <if test="questionContent != null">#{questionContent},</if>
+            <if test="responseTime != null">#{responseTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="submitIp != null">#{submitIp},</if>
+            <if test="answer != null">#{answer},</if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update answer
+        <set>
+            <if test="questionnaireId != null">
+                questionnaire_id = #{questionnaireId},
+            </if>
+            <if test="questionName != null and questionName != ''">
+                question_name = #{questionName},
+            </if>
+            <if test="questionContent != null and questionContent != ''">
+                question_content = #{questionContent},
+            </if>
+            <if test="responseTime != null and responseTime != ''">
+                response_time = #{responseTime},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="submitIp != null and submitIp != ''">
+                submit_ip = #{submitIp},
+            </if>
+            <if test="answer != null and answer != ''">
+                answer = #{answer},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from answer
+        where id = #{id}
+    </delete>
+
+    <select id="queryTotal" resultType="int">
+        select count(id)
+        from answer
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="questionnaireId != null">
+                and questionnaire_id = #{questionnaireId}
+            </if>
+            <if test="questionName != null and questionName != ''">
+                and question_name = #{questionName}
+            </if>
+            <if test="questionContent != null and questionContent != ''">
+                and question_content = #{questionContent}
+            </if>
+            <if test="responseTime != null and responseTime != ''">
+                and response_time = #{responseTime}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="submitIp != null and submitIp != ''">
+                and submit_ip = #{submitIp}
+            </if>
+            <if test="answer != null and answer != ''">
+                and answer = #{answer}
+            </if>
+        </where>
+    </select>
+
+    <select id="statistics" resultType="java.util.Map">
+        SELECT COUNT(submit_ip) as `value`,submit_ip as name from answer WHERE questionnaire_id=#{questionnaireId} GROUP BY submit_ip ORDER BY count(submit_ip) DESC LIMIT 0,5
+    </select>
+</mapper>
+
